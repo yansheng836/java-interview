@@ -1,4 +1,8 @@
+[TOC]
+
 # SpringMVC常见面试题总结
+
+<https://blog.csdn.net/a745233700/article/details/80963758>
 
 **1、什么是Spring MVC ？简单介绍下你对springMVC的理解?**
 
@@ -188,83 +192,27 @@ ISO8859-1是tomcat默认编码，需要将tomcat编码后的内容按utf-8编码
 
 有两种写法,一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在SpringMvc的配置文件中配置拦截器即可：
 
-```html
+```XML
   <!-- 配置SpringMvc的拦截器 -->
-
-
-
  
-
-
-
 <mvc:interceptors>
-
-
-
  
-
-
-
     <!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 -->
-
-
-
  
-
-
-
     <bean id="myInterceptor" class="com.zwp.action.MyHandlerInterceptor"></bean>
-
-
-
  
-
-
-
     <!-- 只针对部分请求拦截 -->
-
-
-
  
-
-
-
     <mvc:interceptor>
-
-
-
  
-
-
-
        <mvc:mapping path="/modelMap.do" />
-
-
-
  
-
-
-
        <bean class="com.zwp.action.MyHandlerInterceptorAdapter" />
-
-
-
  
-
-
-
     </mvc:interceptor>
-
-
-
  
-
-
-
 </mvc:interceptors>
 ```
-
- 
 
 **21、注解原理：**
 
