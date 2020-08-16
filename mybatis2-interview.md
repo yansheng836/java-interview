@@ -12,7 +12,7 @@
 
 （3）通过xml 文件或注解的方式将要执行的各种 statement 配置起来，并通过java对象和 statement中sql的动态参数进行映射生成最终执行的sql语句，最后由mybatis框架执行sql并将结果映射为java对象并返回。（从执行sql到返回result的过程）。
 
-**2、Mybaits的优点：**
+## 2、Mybaits的优点：
 
 （1）基于SQL语句编程，相当灵活，不会对应用程序或者数据库的现有设计造成任何影响，SQL写在XML里，解除sql与程序代码的耦合，便于统一管理；提供XML标签，支持编写动态SQL语句，并可重用。
 
@@ -24,21 +24,19 @@
 
 （5）提供映射标签，支持对象与数据库的ORM字段关系映射；提供对象关系映射标签，支持对象关系组件维护。
 
-**3、MyBatis框架的缺点：**
+## 3、MyBatis框架的缺点：
 
 （1）SQL语句的编写工作量较大，尤其当字段多、关联表多时，对开发人员编写SQL语句的功底有一定要求。
 
 （2）SQL语句依赖于数据库，导致数据库移植性差，不能随意更换数据库。
 
-**4、MyBatis框架适用场合：**
+## 4、MyBatis框架适用场合：
 
 （1）MyBatis专注于SQL本身，是一个足够灵活的DAO层解决方案。
 
 （2）对性能的要求很高，或者需求变化较多的项目，如互联网项目，MyBatis将是不错的选择。
 
- 
-
-**5、MyBatis与Hibernate有哪些不同？**
+## 5、MyBatis与Hibernate有哪些不同？
 
 （1）Mybatis和hibernate不同，它不完全是一个ORM框架，因为MyBatis需要程序员自己编写Sql语句。
 
@@ -46,9 +44,7 @@
 
 （3）Hibernate对象/关系映射能力强，数据库无关性好，对于关系模型要求高的软件，如果用hibernate开发可以节省很多代码，提高效率。 
 
- 
-
-**6、#{}和${}的区别是什么？**
+## 6、#{}和${}的区别是什么？
 
 \#{}是预编译处理，${}是字符串替换。
 
@@ -60,7 +56,7 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
 
  
 
-**7、当实体类中的属性名和表中的字段名不一样 ，怎么办 ？**
+## 7、当实体类中的属性名和表中的字段名不一样 ，怎么办 ？
 
 第1种： 通过在查询的sql语句中定义字段名的别名，让字段名的别名和实体类的属性名一致。
 
@@ -81,7 +77,7 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
         <!–用id属性来映射主键字段–>
         <id property=”id” column=”order_id”>
  
-        <!–用result属性来映射非主键字段，property为实体类属性名，column为数据表中的属性–>
+        <!--用result属性来映射非主键字段，property为实体类属性名，column为数据表中的属性-->
         <result property = “orderno” column =”order_no”/>
         <result property=”price” column=”order_price” />
     </reslutMap>
@@ -89,31 +85,16 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
 
  
 
-**8、 模糊查询like语句该怎么写?**
+## 8、 模糊查询like语句该怎么写?
 
 第1种：在Java代码中添加sql通配符。
 
 ```html
     string wildcardname = “%smi%”;
-
-
-
     list<name> names = mapper.selectlike(wildcardname);
-
-
-
  
-
-
-
     <select id=”selectlike”>
-
-
-
      select * from foo where bar like #{value}
-
-
-
     </select>
 ```
 
@@ -121,31 +102,16 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
 
 ```html
     string wildcardname = “smi”;
-
-
-
     list<name> names = mapper.selectlike(wildcardname);
-
-
-
  
-
-
-
     <select id=”selectlike”>
-
-
-
-         select * from foo where bar like "%"${value}"%"
-
-
-
+         select * from foo where bar like "%"${value}"%"
     </select>
 ```
 
  
 
-**9、通常一个Xml映射文件，都会写一个Dao接口与之对应，请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗？**
+## 9、通常一个Xml映射文件，都会写一个Dao接口与之对应，请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗？
 
 Dao接口即Mapper接口。接口的全限名，就是映射文件中的namespace的值；接口的方法名，就是映射文件中Mapper的Statement的id值；接口方法内的参数，就是传递给sql的参数。
 
@@ -157,7 +123,7 @@ Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法
 
  
 
-**10、Mybatis是如何进行分页的？分页插件的原理是什么？**
+## 10、Mybatis是如何进行分页的？分页插件的原理是什么？
 
 ​        Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的内存分页，而非物理分页。可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。
 
@@ -165,7 +131,7 @@ Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法
 
  
 
-**11、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？**
+## 11、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
 
 第一种是使用<resultMap>标签，逐一定义数据库列名和对象属性名之间的映射关系。
 
@@ -175,19 +141,13 @@ Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法
 
  
 
-**12、如何执行批量插入?**
+## 12、如何执行批量插入?
 
 首先,创建一个简单的insert语句:
 
 ```html
     <insert id=”insertname”>
-
-
-
-         insert into names (name) values (#{value})
-
-
-
+         insert into names (name) values (#{value})
     </insert>
 ```
 
@@ -195,95 +155,30 @@ Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法
 
 ```java
   list<string> names = new arraylist();
-
-
-
     names.add(“fred”);
-
-
-
     names.add(“barney”);
-
-
-
     names.add(“betty”);
-
-
-
     names.add(“wilma”);
-
-
-
  
-
-
-
     // 注意这里 executortype.batch
-
-
-
     sqlsession sqlsession = sqlsessionfactory.opensession(executortype.batch);
-
-
-
     try {
-
-
-
      namemapper mapper = sqlsession.getmapper(namemapper.class);
-
-
-
      for (string name : names) {
-
-
-
          mapper.insertname(name);
-
-
-
      }
-
-
-
      sqlsession.commit();
-
-
-
     }catch(Exception e){
-
-
-
      e.printStackTrace();
-
-
-
      sqlSession.rollback(); 
-
-
-
      throw e; 
-
-
-
-    }
-
-
-
-     finally {
-
-
-
-         sqlsession.close();
-
-
-
+    }
+     finally {
+         sqlsession.close();
     }
 ```
 
- 
-
-**13、如何获取自动生成的(主)键值?**
+## 13、如何获取自动生成的(主)键值?
 
 insert 方法总是返回一个int值 ，这个值代表的是插入的行数。
 
@@ -291,190 +186,67 @@ insert 方法总是返回一个int值 ，这个值代表的是插入的行数。
 
 示例：
 
-```html
+```xml
 <insert id=”insertname” usegeneratedkeys=”true” keyproperty=”id”>
-
-
-
      insert into names (name) values (#{name})
-
-
-
 </insert>
-    name name = new name();
+```
 
 
 
+```java
+    name name = new name();
     name.setname(“fred”);
-
-
-
  
-
-
-
     int rows = mapper.insertname(name);
-
-
-
     // 完成后,id已经被设置到对象中
-
-
-
     system.out.println(“rows inserted = ” + rows);
-
-
-
     system.out.println(“generated key value = ” + name.getid());
 ```
 
- 
 
-**14、在mapper中如何传递多个参数?**
+
+## 14、在mapper中如何传递多个参数?
 
 ```java
 （1）第一种：
-
-
-
 //DAO层的函数
-
-
-
 Public UserselectUser(String name,String area);  
-
-
-
 //对应的xml,#{0}代表接收的是dao层中的第一个参数，#{1}代表dao层中第二参数，更多参数一致往后加即可。
-
-
-
 <select id="selectUser"resultMap="BaseResultMap">  
-
-
-
     select *  fromuser_user_t   whereuser_name = #{0} anduser_area=#{1}  
-
-
-
 </select>  
-
-
-
  
-
-
-
 （2）第二种： 使用 @param 注解:
-
-
-
 public interface usermapper {
-
-
-
    user selectuser(@param(“username”) string username,@param(“hashedpassword”) string hashedpassword);
-
-
-
 }
-
-
-
 然后,就可以在xml像下面这样使用(推荐封装为一个map,作为单个参数传递给mapper):
-
-
-
 <select id=”selectuser” resulttype=”user”>
-
-
-
          select id, username, hashedpassword
-
-
-
          from some_table
-
-
-
          where username = #{username}
-
-
-
          and hashedpassword = #{hashedpassword}
-
-
-
 </select>
-
-
-
  
-
-
-
 （3）第三种：多个参数封装成map
-
-
-
 try{
-
-
-
 //映射文件的命名空间.SQL片段的ID，就可以调用对应的映射文件中的SQL
-
-
-
 //由于我们的参数超过了两个，而方法中只有一个Object参数收集，因此我们使用Map集合来装载我们的参数
-
-
-
 Map<String, Object> map = new HashMap();
-
-
-
      map.put("start", start);
-
-
-
      map.put("end", end);
-
-
-
      return sqlSession.selectList("StudentID.pagination", map);
-
-
-
  }catch(Exception e){
-
-
-
      e.printStackTrace();
-
-
-
      sqlSession.rollback();
-
-
-
     throw e; }
-
-
-
 finally{
-
-
-
  MybatisUtil.closeSqlSession();
-
-
-
  }
 ```
 
- 
-
-**15、Mybatis动态sql有什么用？执行原理？有哪些动态sql？**
+## 15、Mybatis动态sql有什么用？执行原理？有哪些动态sql？
 
 Mybatis动态sql可以在Xml映射文件内，以标签的形式编写动态sql，执行原理是根据表达式的值 完成逻辑判断并动态拼接sql的功能。
 
@@ -482,13 +254,13 @@ Mybatis提供了9种动态sql标签：trim | where | set | foreach | if | choose
 
  
 
-**16、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？**
+## 16、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
 
 答：<resultMap>、<parameterMap>、<sql>、<include>、<selectKey>，加上动态sql的9个标签，其中<sql>为sql片段标签，通过<include>标签引入sql片段，<selectKey>为不支持自增的主键生成策略标签。
 
  
 
-**17、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？**
+## 17、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
 
 不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；
 
@@ -498,161 +270,54 @@ Mybatis提供了9种动态sql标签：trim | where | set | foreach | if | choose
 
  
 
-**18、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？**
+## 18、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
 
 Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。
 
  
 
-**19、 一对一、一对多的关联查询 ？** 
+## 19、 一对一、一对多的关联查询 ？ 
 
-```html
+```xml
 <mapper namespace="com.lcb.mapping.userMapper">  
-
-
-
     <!--association  一对一关联查询 -->  
-
-
-
     <select id="getClass" parameterType="int" resultMap="ClassesResultMap">  
-
-
-
         select * from class c,teacher t where c.teacher_id=t.t_id and c.c_id=#{id}  
-
-
-
     </select>  
-
-
-
  
-
-
-
     <resultMap type="com.lcb.user.Classes" id="ClassesResultMap">  
-
-
-
         <!-- 实体类的字段名和数据表的字段名映射 -->  
-
-
-
         <id property="id" column="c_id"/>  
-
-
-
         <result property="name" column="c_name"/>  
-
-
-
         <association property="teacher" javaType="com.lcb.user.Teacher">  
-
-
-
             <id property="id" column="t_id"/>  
-
-
-
             <result property="name" column="t_name"/>  
-
-
-
         </association>  
-
-
-
     </resultMap>  
-
-
-
  
-
-
-
  
-
-
-
     <!--collection  一对多关联查询 -->  
-
-
-
     <select id="getClass2" parameterType="int" resultMap="ClassesResultMap2">  
-
-
-
         select * from class c,teacher t,student s where c.teacher_id=t.t_id and c.c_id=s.class_id and c.c_id=#{id}  
-
-
-
     </select>  
-
-
-
  
-
-
-
     <resultMap type="com.lcb.user.Classes" id="ClassesResultMap2">  
-
-
-
         <id property="id" column="c_id"/>  
-
-
-
         <result property="name" column="c_name"/>  
-
-
-
         <association property="teacher" javaType="com.lcb.user.Teacher">  
-
-
-
             <id property="id" column="t_id"/>  
-
-
-
             <result property="name" column="t_name"/>  
-
-
-
         </association>  
-
-
-
  
-
-
-
         <collection property="student" ofType="com.lcb.user.Student">  
-
-
-
             <id property="id" column="s_id"/>  
-
-
-
             <result property="name" column="s_name"/>  
-
-
-
         </collection>  
-
-
-
     </resultMap>  
-
-
-
 </mapper> 
 ```
 
- 
-
-**20、MyBatis实现一对一有几种方式?具体怎么操作的？**
+## 20、MyBatis实现一对一有几种方式?具体怎么操作的？
 
 有联合查询和嵌套查询,联合查询是几个表联合查询,只查询一次, 通过在resultMap里面配置association节点配置一对一的类就可以完成；
 
@@ -660,13 +325,13 @@ Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或�
 
  
 
-**21、MyBatis实现一对多有几种方式,怎么操作的？**
+## 21、MyBatis实现一对多有几种方式,怎么操作的？
 
 ​        有联合查询和嵌套查询。联合查询是几个表联合查询,只查询一次,通过在resultMap里面的collection节点配置一对多的类就可以完成；嵌套查询是先查一个表,根据这个表里面的 结果的外键id,去再另外一个表里面查询数据,也是通过配置collection,但另外一个表的查询通过select节点配置。
 
  
 
-**22、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？**
+## 22、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？
 
 答：Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。
 
@@ -676,7 +341,7 @@ Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或�
 
  
 
- **23、Mybatis的一级、二级缓存:**
+ ## 23、Mybatis的一级、二级缓存:
 
 1）一级缓存: 基于 PerpetualCache 的 HashMap 本地缓存，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空，默认打开一级缓存。
 
@@ -686,62 +351,71 @@ Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或�
 
  
 
-**24、什么是MyBatis的接口绑定？有哪些实现方式？**
+## 24、什么是MyBatis的接口绑定？有哪些实现方式？
 
 接口绑定，就是在MyBatis中任意定义接口,然后把接口里面的方法和SQL语句绑定, 我们直接调用接口方法就可以,这样比起原来了SqlSession提供的方法我们可以有更加灵活的选择和设置。
 
 接口绑定有两种实现方式,一种是通过注解绑定，就是在接口的方法上面加上 @Select、@Update等注解，里面包含Sql语句来绑定；另外一种就是通过xml里面写SQL来绑定, 在这种情况下,要指定xml映射文件里面的namespace必须为接口的全路径名。当Sql语句比较简单时候,用注解绑定, 当SQL语句比较复杂时候,用xml绑定,一般用xml绑定的比较多。
 
-**25、使用MyBatis的mapper接口调用时有哪些要求？**
+## 25、使用MyBatis的mapper接口调用时有哪些要求？
 
 ①  Mapper接口方法名和mapper.xml中定义的每个sql的id相同；
 ②  Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同；
 ③  Mapper接口方法的输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同；
 ④  Mapper.xml文件中的namespace即是mapper接口的类路径。
 
-**26、Mapper编写有哪几种方式？**
+## 26、Mapper编写有哪几种方式？
 
-> 第一种：接口实现类继承SqlSessionDaoSupport：使用此种方法需要编写mapper接口，mapper接口实现类、mapper.xml文件。
-> （1）在sqlMapConfig.xml中配置mapper.xml的位置
-> <mappers>
->     <mapper resource="mapper.xml文件的地址" />
->     <mapper resource="mapper.xml文件的地址" />
-> </mappers>
-> （2）定义mapper接口
-> （3）实现类集成SqlSessionDaoSupport
-> mapper方法中可以this.getSqlSession()进行数据增删改查。
-> （4）spring 配置
-> <bean id=" " class="mapper接口的实现">
->     <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
-> </bean>
->
-> 
-> 第二种：使用org.mybatis.spring.mapper.MapperFactoryBean：
-> （1）在sqlMapConfig.xml中配置mapper.xml的位置，如果mapper.xml和mappre接口的名称相同且在同一个目录，这里可以不用配置
-> <mappers>
->     <mapper resource="mapper.xml文件的地址" />
->     <mapper resource="mapper.xml文件的地址" />
-> </mappers>
-> （2）定义mapper接口：
-> ①mapper.xml中的namespace为mapper接口的地址
-> ②mapper接口中的方法名和mapper.xml中的定义的statement的id保持一致
-> ③Spring中定义
-> <bean id="" class="org.mybatis.spring.mapper.MapperFactoryBean">
->     <property name="mapperInterface"   value="mapper接口地址" /> 
->     <property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
-> </bean>
+第一种：接口实现类继承SqlSessionDaoSupport：使用此种方法需要编写mapper接口，mapper接口实现类、mapper.xml文件。
+（1）在sqlMapConfig.xml中配置mapper.xml的位置
 
- 
+```xml
+<mappers>
+    <mapper resource="mapper.xml文件的地址" />
+    <mapper resource="mapper.xml文件的地址" />
+</mappers>
+```
 
-**27、简述Mybatis的插件运行原理，以及如何编写一个插件。**
+（2）定义mapper接口
+（3）实现类集成SqlSessionDaoSupport
+mapper方法中可以this.getSqlSession()进行数据增删改查。
+（4）spring 配置
+
+```xml
+<bean id=" " class="mapper接口的实现">
+    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+</bean>
+```
+
+第二种：使用org.mybatis.spring.mapper.MapperFactoryBean：
+（1）在sqlMapConfig.xml中配置mapper.xml的位置，如果mapper.xml和mappre接口的名称相同且在同一个目录，这里可以不用配置
+
+```xml
+<mappers>
+    <mapper resource="mapper.xml文件的地址" />
+    <mapper resource="mapper.xml文件的地址" />
+</mappers>
+```
+
+（2）定义mapper接口：
+①mapper.xml中的namespace为mapper接口的地址
+②mapper接口中的方法名和mapper.xml中的定义的statement的id保持一致
+③Spring中定义
+
+```xml
+<bean id="" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    <property name="mapperInterface"   value="mapper接口地址" /> 
+    <property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
+</bean>
+```
+
+## 27、简述Mybatis的插件运行原理，以及如何编写一个插件。
 
 答：Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件，Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。
 
 编写插件：实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，别忘了在配置文件中配置你编写的插件。
 
 ------
-
- 
 
 相关阅读：
 
