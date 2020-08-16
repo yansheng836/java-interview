@@ -54,8 +54,6 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
 
 使用#{}可以有效的防止SQL注入，提高系统安全性。
 
- 
-
 ## 7、当实体类中的属性名和表中的字段名不一样 ，怎么办 ？
 
 第1种： 通过在查询的sql语句中定义字段名的别名，让字段名的别名和实体类的属性名一致。
@@ -66,7 +64,7 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
     </select>
 ```
 
-第2种： 通过<resultMap>来映射字段名和实体类属性名的一一对应的关系。
+第2种： 通过`<resultMap>`来映射字段名和实体类属性名的一一对应的关系。
 
 ```html
  <select id="getOrder" parameterType="int" resultMap="orderresultmap">
@@ -109,37 +107,29 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
     </select>
 ```
 
- 
-
 ## 9、通常一个Xml映射文件，都会写一个Dao接口与之对应，请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗？
 
 Dao接口即Mapper接口。接口的全限名，就是映射文件中的namespace的值；接口的方法名，就是映射文件中Mapper的Statement的id值；接口方法内的参数，就是传递给sql的参数。
 
-Mapper接口是没有实现类的，当调用接口方法时，接口全限名+方法名拼接字符串作为key值，可唯一定位一个MapperStatement。在Mybatis中，每一个<select>、<insert>、<update>、<delete>标签，都会被解析为一个MapperStatement对象。
+Mapper接口是没有实现类的，当调用接口方法时，接口全限名+方法名拼接字符串作为key值，可唯一定位一个MapperStatement。在Mybatis中，每一个`<select>、<insert>、<update>、<delete>`标签，都会被解析为一个MapperStatement对象。
 
 > 举例：com.mybatis3.mappers.StudentDao.findStudentById，可以唯一找到namespace为com.mybatis3.mappers.StudentDao下面 id 为 findStudentById 的 MapperStatement。
 
 Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法名 的保存和寻找策略。Mapper 接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Mapper接口生成代理对象proxy，代理对象会拦截接口方法，转而执行MapperStatement所代表的sql，然后将sql执行结果返回。
 
- 
-
 ## 10、Mybatis是如何进行分页的？分页插件的原理是什么？
 
-​        Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的内存分页，而非物理分页。可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。
+Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的内存分页，而非物理分页。可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。
 
-​       分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。
-
- 
+分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。
 
 ## 11、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
 
-第一种是使用<resultMap>标签，逐一定义数据库列名和对象属性名之间的映射关系。
+第一种是使用`<resultMap>`标签，逐一定义数据库列名和对象属性名之间的映射关系。
 
 第二种是使用sql列的别名功能，将列的别名书写为对象属性名。
 
 有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。
-
- 
 
 ## 12、如何执行批量插入?
 
@@ -252,13 +242,9 @@ Mybatis动态sql可以在Xml映射文件内，以标签的形式编写动态sql�
 
 Mybatis提供了9种动态sql标签：trim | where | set | foreach | if | choose | when | otherwise | bind。
 
- 
-
 ## 16、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
 
-答：<resultMap>、<parameterMap>、<sql>、<include>、<selectKey>，加上动态sql的9个标签，其中<sql>为sql片段标签，通过<include>标签引入sql片段，<selectKey>为不支持自增的主键生成策略标签。
-
- 
+答：`<resultMap>、<parameterMap>、<sql>、<include>、<selectKey>`，加上动态sql的9个标签，其中`<sql>`为sql片段标签，通过`<include>`标签引入sql片段，`<selectKey>`为不支持自增的主键生成策略标签。
 
 ## 17、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
 
@@ -268,13 +254,9 @@ Mybatis提供了9种动态sql标签：trim | where | set | foreach | if | choose
 
 但是，在以前的Mybatis版本的namespace是可选的，不过新版本的namespace已经是必须的了。
 
- 
-
 ## 18、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
 
 Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。
-
- 
 
 ## 19、 一对一、一对多的关联查询 ？ 
 
@@ -323,13 +305,10 @@ Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或�
 
 嵌套查询是先查一个表，根据这个表里面的结果的 外键id，去再另外一个表里面查询数据,也是通过association配置，但另外一个表的查询通过select属性配置。
 
- 
-
 ## 21、MyBatis实现一对多有几种方式,怎么操作的？
 
-​        有联合查询和嵌套查询。联合查询是几个表联合查询,只查询一次,通过在resultMap里面的collection节点配置一对多的类就可以完成；嵌套查询是先查一个表,根据这个表里面的 结果的外键id,去再另外一个表里面查询数据,也是通过配置collection,但另外一个表的查询通过select节点配置。
+有联合查询和嵌套查询。联合查询是几个表联合查询,只查询一次,通过在resultMap里面的collection节点配置一对多的类就可以完成；嵌套查询是先查一个表,根据这个表里面的 结果的外键id,去再另外一个表里面查询数据,也是通过配置collection,但另外一个表的查询通过select节点配置。
 
- 
 
 ## 22、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？
 
@@ -339,13 +318,11 @@ Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或�
 
 当然了，不光是Mybatis，几乎所有的包括Hibernate，支持延迟加载的原理都是一样的。
 
- 
-
- ## 23、Mybatis的一级、二级缓存:
+## 23、Mybatis的一级、二级缓存:
 
 1）一级缓存: 基于 PerpetualCache 的 HashMap 本地缓存，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空，默认打开一级缓存。
 
-2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。默认不打开二级缓存，要开启二级缓存，使用二级缓存属性类需要实现Serializable序列化接口(可用来保存对象的状态),可在它的映射文件中配置<cache/> ；
+2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。默认不打开二级缓存，要开启二级缓存，使用二级缓存属性类需要实现Serializable序列化接口(可用来保存对象的状态),可在它的映射文件中配置`<cache/>` ；
 
 3）对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear 掉并重新更新，如果开启了二级缓存，则只根据配置判断是否刷新。
 
