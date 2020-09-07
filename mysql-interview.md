@@ -6,7 +6,7 @@
 
 <https://www.jianshu.com/p/d6bb7775910f>
 
-**1. 为什么要使用数据库**
+## 1.为什么要使用数据库
 
 数据保存在内存
 
@@ -14,11 +14,15 @@
 
 缺点：数据不能永久保存
 
+
+
 数据保存在文件
 
 优点：数据永久保存
 
 缺点：1）速度比内存操作慢，频繁的IO操作。2）查询数据不方便
+
+
 
 数据保存在数据库
 
@@ -29,22 +33,19 @@
 3）管理数据方便
 
 
-
 ![img](https:////upload-images.jianshu.io/upload_images/15915623-3eceae91642281ac.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
 
-
-
-**2. 什么是SQL？**
+## 2.什么是SQL？
 
 结构化查询语言(Structured Query Language)简称SQL，是一种数据库查询语言。
 
 作用：用于存取数据、查询、更新和管理关系数据库系统。
 
-**3. 什么是MySQL?**
+## 3.什么是MySQL?
 
 MySQL是一个关系型数据库管理系统，由瑞典MySQL AB 公司开发，属于 Oracle 旗下产品。MySQL 是最流行的关系型数据库管理系统之一，在 WEB 应用方面，MySQL是最好的 RDBMS (Relational Database Management System，关系数据库管理系统) 应用软件之一。在Java企业级开发中非常常用，因为 MySQL 是开源免费的，并且方便扩展。
 
-**4. 数据库三大范式是什么**
+## 4. 数据库三大范式是什么
 
 第一范式：每个列都不可以再拆分。
 
@@ -54,13 +55,9 @@ MySQL是一个关系型数据库管理系统，由瑞典MySQL AB 公司开发，
 
 在设计数据库结构的时候，要尽量遵守三范式，如果不遵守，必须有足够的理由。比如性能。事实上我们经常会为了性能而妥协数据库的设计。
 
-
-
 ![img](https:////upload-images.jianshu.io/upload_images/15915623-6cc5bffa1ec71b35.png?imageMogr2/auto-orient/strip|imageView2/2/w/897/format/webp)
 
-
-
-**5. mysql有关权限的表都有哪几个**
+## 5. mysql有关权限的表都有哪几个
 
 MySQL服务器通过权限表来控制用户对数据库的访问，权限表存放在mysql数据库里，由mysql_install_db脚本初始化。这些权限表分别user，db，table_priv，columns_priv和host。下面分别介绍一下这些表的结构和内容：
 
@@ -74,15 +71,11 @@ columns_priv权限表：记录数据列级的操作权限。
 
 host权限表：配合db权限表对给定主机上数据库级操作权限作更细致的控制。这个权限表不受GRANT和REVOKE语句的影响。
 
-**6. MySQL的binlog有有几种录入格式？分别有什么区别？**
-
-
+## 6. MySQL的binlog有有几种录入格式？分别有什么区别？
 
 ![img](https:////upload-images.jianshu.io/upload_images/15915623-f39a1ea8353339fd.png?imageMogr2/auto-orient/strip|imageView2/2/w/859/format/webp)
 
-
-
-有三种格式，statement，row和mixed。
+有三种格式：statement，row和mixed。
 
 statement模式下，每一条会修改数据的sql都会记录在binlog中。不需要记录每一行的变化，减少了binlog日志量，节约了IO，提高性能。由于sql的执行是有上下文的，因此在保存的时候需要保存相关的信息，同时还有一些使用了函数之类的语句无法被记录复制。
 
@@ -94,13 +87,9 @@ mixed，一种折中的方案，普通操作使用statement记录，当无法使
 
 最后，小编分类整理了许多java进阶学习材料和BAT面试给热爱IT行业的你，如果需要资料的请转发此文章后再私聊小编回复【java】就能领取2019年java进阶学习资料和BAT面试题以及《Effective Java》（第3版）电子版书籍。也可以加群：712263501领取海量学习资料进行学习。
 
-作者：嗯哼_9793
-
-链接：https://www.jianshu.com/p/d6bb7775910f
-
-来源：简书
-
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+> 作者：嗯哼_9793
+> 链接：https://www.jianshu.com/p/d6bb7775910f
+> 来源：简书
 
 # MySQL 万字精华总结 + 面试100 问，吊打面试官绰绰有余
 
@@ -108,41 +97,25 @@ mixed，一种折中的方案，普通操作使用statement记录，当无法使
 
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-117cc7d60756169d?imageMogr2/auto-orient/strip|imageView2/2/w/640/format/webp)
 
-image
-
 ## 一、MySQL架构
 
 和其它数据库相比，MySQL有点与众不同，它的架构可以在多种不同场景中应用并发挥良好作用。主要体现在存储引擎的架构上，**插件式的存储引擎架构将查询处理和其它的系统任务以及数据的存储提取相分离**。这种架构可以根据业务的需求和实际需要选择合适的存储引擎。
 
-
-
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-c7e44de7ea22102a?imageMogr2/auto-orient/strip|imageView2/2/w/640/format/webp)
 
-image
-
 -  **连接层**：最上层是一些客户端和连接服务。**主要完成一些类似于连接处理、授权认证、及相关的安全方案**。在该层上引入了线程池的概念，为通过认证安全接入的客户端提供线程。同样在该层上可以实现基于SSL的安全链接。服务器也会为安全接入的每个客户端验证它所具有的操作权限。
--  **服务层**：第二层服务层，主要完成大部分的核心服务功能， 包括查询解析、分析、优化、缓存、以及所有的内置函数，所有跨存储引擎的功能也都在这一层实现，包括触发器、存储过程、视图等
--  **引擎层**：第三层存储引擎层，存储引擎真正的负责了MySQL中数据的存储和提取，服务器通过API与存储引擎进行通信。不同的存储引擎具有的功能不同，这样我们可以根据自己的实际需要进行选取
--  **存储层**：第四层为数据存储层，主要是将数据存储在运行于该设备的文件系统之上，并完成与存储引擎的交互
+-  **服务层**：第二层服务层，主要完成大部分的核心服务功能， 包括查询解析、分析、优化、缓存、以及所有的内置函数，所有跨存储引擎的功能也都在这一层实现，包括触发器、存储过程、视图等。
+-  **引擎层**：第三层存储引擎层，存储引擎真正的负责了MySQL中数据的存储和提取，服务器通过API与存储引擎进行通信。不同的存储引擎具有的功能不同，这样我们可以根据自己的实际需要进行选取。
+-  **存储层**：第四层为数据存储层，主要是将数据存储在运行于该设备的文件系统之上，并完成与存储引擎的交互。
 
-> ❝
->
 > 画出 MySQL 架构图，这种变态问题都能问的出来
 >
 > MySQL 的查询流程具体是？or 一条SQL语句在MySQL中如何执行的？
 
 客户端请求 ---> 连接器（验证用户身份，给予权限） ---> 查询缓存（存在缓存则直接返回，不存在则执行后续操作） ---> 分析器（对SQL进行词法分析和语法分析操作） ---> 优化器（主要对执行的sql优化选择最优的执行方案方法） ---> 执行器（执行时会先看用户是否有执行权限，有才去使用这个引擎提供的接口） ---> 去引擎层获取数据返回（如果开启查询缓存则会缓存查询结果）图：极客时间
 
-
-
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-538f9a82eada40ad?imageMogr2/auto-orient/strip|imageView2/2/w/640/format/webp)
 
-image
-
-------
-
-> ❝
->
 > 说说MySQL有哪些存储引擎？都有哪些区别？
 
 ## 二、存储引擎
@@ -155,9 +128,10 @@ MySQL服务器使用**可插拔**的存储引擎体系结构，可以从运行�
 
 ### 查看存储引擎
 
-```dart
+```sql
 -- 查看支持的存储引擎
 SHOW ENGINES
+20200907220229.jpg
 
 -- 查看默认存储引擎
 SHOW VARIABLES LIKE 'storage_engine'
@@ -170,9 +144,11 @@ show table status like 'tablename'
 show table status from database where name="tablename"
 ```
 
+![1599487590460](H:\Workspaces\book\java-interview\assets\1599487590460.png)
+
 ### 设置存储引擎
 
-```cpp
+```sql
 -- 建表时指定存储引擎。默认的就是INNODB，不需要设置
 CREATE TABLE t1 (i INT) ENGINE = INNODB;
 CREATE TABLE t2 (i INT) ENGINE = CSV;
@@ -185,13 +161,13 @@ ALTER TABLE t ENGINE = InnoDB;
 SET default_storage_engine=NDBCLUSTER;
 ```
 
-默认情况下，每当 CREATE TABLE 或 ALTER TABLE 不能使用默认存储引擎时，都会生成一个警告。为了防止在所需的引擎不可用时出现令人困惑的意外行为，可以启用 NO_ENGINE_SUBSTITUTION SQL 模式。如果所需的引擎不可用，则此设置将产生错误而不是警告，并且不会创建或更改表
+默认情况下，每当 CREATE TABLE 或 ALTER TABLE 不能使用默认存储引擎时，都会生成一个警告。为了防止在所需的引擎不可用时出现令人困惑的意外行为，可以启用 NO_ENGINE_SUBSTITUTION SQL 模式。如果所需的引擎不可用，则此设置将产生错误而不是警告，并且不会创建或更改表。
 
 ### 存储引擎对比
 
 常见的存储引擎就 InnoDB、MyISAM、Memory、NDB。
 
-InnoDB 现在是 MySQL 默认的存储引擎，支持**事务、行级锁定和外键**
+InnoDB 现在是 MySQL 默认的存储引擎，支持**事务、行级锁定和外键**。
 
 #### 文件存储结构对比
 
@@ -201,17 +177,15 @@ InnoDB 现在是 MySQL 默认的存储引擎，支持**事务、行级锁定和�
 
 MyISAM 物理文件结构为：
 
-- .frm文件：与表相关的元数据信息都存放在frm文件，包括表结构的定义信息等
-- .MYD (MYData) 文件：MyISAM 存储引擎专用，用于存储MyISAM 表的数据
-- .MYI (MYIndex)文件：MyISAM 存储引擎专用，用于存储MyISAM 表的索引相关信息
+- .frm文件：与表相关的元数据信息都存放在frm文件，包括表结构的定义信息等。
+- .MYD (MYData) 文件：MyISAM 存储引擎专用，用于存储MyISAM 表的数据。
+- .MYI (MYIndex)文件：MyISAM 存储引擎专用，用于存储MyISAM 表的索引相关信息。
 
 InnoDB 物理文件结构为：
 
-- .frm 文件：与表相关的元数据信息都存放在frm文件，包括表结构的定义信息等
-- .ibd 文件或 .ibdata 文件：这两种文件都是存放 InnoDB 数据的文件，之所以有两种文件形式存放 InnoDB 的数据，是因为 InnoDB 的数据存储方式能够通过配置来决定是使用**共享表空间**存放存储数据，还是用**独享表空间**存放存储数据。独享表空间存储方式使用.ibd文件，并且每个表一个.ibd文件 共享表空间存储方式使用.ibdata文件，所有表共同使用一个.ibdata文件（或多个，可自己配置）
+- .frm 文件：与表相关的元数据信息都存放在frm文件，包括表结构的定义信息等。
+- .ibd 文件或 .ibdata 文件：这两种文件都是存放 InnoDB 数据的文件，之所以有两种文件形式存放 InnoDB 的数据，是因为 InnoDB 的数据存储方式能够通过配置来决定是使用**共享表空间**存放存储数据，还是用**独享表空间**存放存储数据。独享表空间存储方式使用.ibd文件，并且每个表一个.ibd文件共享表空间存储方式使用.ibdata文件，所有表共同使用一个.ibdata文件（或多个，可自己配置）。
 
-> ❝
->
 > ps：正经公司，这些都有专业运维去做，数据备份、恢复啥的，让我一个 Javaer 搞这的话，加钱不？
 
 #### 面试这么回答
@@ -219,12 +193,13 @@ InnoDB 物理文件结构为：
 1. InnoDB 支持事务，MyISAM 不支持事务。这是 MySQL 将默认存储引擎从 MyISAM 变成 InnoDB 的重要原因之一；
 2. InnoDB 支持外键，而 MyISAM 不支持。对一个包含外键的 InnoDB 表转为 MYISAM 会失败；
 3. InnoDB 是聚簇索引，MyISAM 是非聚簇索引。聚簇索引的文件存放在主键索引的叶子节点上，因此 InnoDB 必须要有主键，通过主键索引效率很高。但是辅助索引需要两次查询，先查询到主键，然后再通过主键查询到数据。因此，主键不应该过大，因为主键太大，其他索引也都会很大。而 MyISAM 是非聚集索引，数据文件是分离的，索引保存的是数据文件的指针。主键索引和辅助索引是独立的。
-4. InnoDB 不保存表的具体行数，执行select count(*) from table 时需要全表扫描。而 MyISAM 用一个变量保存了整个表的行数，执行上述语句时只需要读出该变量即可，速度很快；
+4. InnoDB 不保存表的具体行数，执行select count(*) from table 时需要全表扫描。而 MyISAM 用一个变量保存了整个表的行数，执行上述语句时只需要读出该变量即可，速度很快。
 5. InnoDB 最小的锁粒度是行锁，MyISAM 最小的锁粒度是表锁。一个更新语句会锁住整张表，导致其他查询和更新都会被阻塞，因此并发访问受限。这也是 MySQL 将默认存储引擎从 MyISAM 变成 InnoDB 的重要原因之一；
 
-对比项MyISAMInnoDB主外键不支持支持事务不支持支持行表锁表锁，即使操作一条记录也会锁住整个表，不适合高并发的操作行锁,操作时只锁某一行，不对其它行有影响，适合高并发的操作缓存只缓存索引，不缓存真实数据不仅缓存索引还要缓存真实数据，对内存要求较高，而且内存大小对性能有决定性的影响表空间小大关注点性能事务默认安装是是
+对比下MyISAM：不支持外键、不支持事务、不支持行表锁表锁，即使操作一条记录也会锁住整个表，不适合高并发的操作行锁。
 
-> ❝
+InnoDB 操作时只锁某一行，不对其它行有影响，适合高并发的操作缓存只缓存索引，不缓存真实数据不仅缓存索引还要缓存真实数据，对内存要求较高，而且内存大小对性能有决定性的影响表空间小大关注点性能事务默认安装是是
+
 >
 > 一张表，里面有ID自增主键，当insert了17条记录之后，删除了第15,16,17条记录，再把Mysql重启，再insert一条记录，这条记录的ID是18还是15 ？
 
@@ -232,7 +207,6 @@ InnoDB 物理文件结构为：
 
 如果表的类型是InnoDB，那么是15。因为InnoDB 表只是把自增主键的最大ID记录到内存中，所以重启数据库或对表进行OPTION操作，都会导致最大ID丢失。
 
-> ❝
 >
 > 哪个存储引擎执行 select count(*) 更快，为什么?
 
@@ -254,24 +228,14 @@ InnoDB 中 count(*) 语句是在执行的时候，全表扫描统计总数量，
 - 其他数据类型：BINARY、VARBINARY、ENUM、SET、Geometry、Point、MultiPoint、LineString、MultiLineString、Polygon、GeometryCollection等
 
 
-
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-abec3266be263be0?imageMogr2/auto-orient/strip|imageView2/2/w/640/format/webp)
-
-image
-
 
 
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-82500f982978794b?imageMogr2/auto-orient/strip|imageView2/2/w/640/format/webp)
 
-image
-
-
 
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-ec388770a62f2eed?imageMogr2/auto-orient/strip|imageView2/2/w/640/format/webp)
 
-image
-
-> ❝
 >
 > CHAR 和 VARCHAR 的区别？
 
@@ -279,11 +243,11 @@ char是固定长度，varchar长度可变：
 
 char(n) 和 varchar(n) 中括号中 n 代表字符的个数，并不代表字节个数，比如 CHAR(30) 就可以存储 30 个字符。
 
-存储时，前者不管实际存储数据的长度，直接按 char 规定的长度分配存储空间；而后者会根据实际存储的数据分配最终的存储空间
+存储时，前者不管实际存储数据的长度，直接按 char 规定的长度分配存储空间；而后者会根据实际存储的数据分配最终的存储空间。
 
 相同点：
 
-1. char(n)，varchar(n)中的n都代表字符的个数
+1. char(n)，varchar(n)中的n都代表字符的个数。
 2. 超过char，varchar最大长度n的限制后，字符串会被截断。
 
 不同点：
@@ -294,17 +258,13 @@ char(n) 和 varchar(n) 中括号中 n 代表字符的个数，并不代表字节
 
 char是适合存储很短的、一般固定长度的字符串。例如，char非常适合存储密码的MD5值，因为这是一个定长的值。对于非常短的列，char比varchar在存储空间上也更有效率。
 
-> ❝
->
 > 列的字符串类型可以是什么？
 
 字符串类型是：SET、BLOB、ENUM、CHAR、CHAR、TEXT、VARCHAR
 
-> ❝
->
 > BLOB和TEXT有什么区别？
 
-BLOB是一个二进制对象，可以容纳可变数量的数据。有四种类型的BLOB：TINYBLOB、BLOB、MEDIUMBLO和 LONGBLOB
+BLOB是一个二进制对象，可以容纳可变数量的数据。有四种类型的BLOB：TINYBLOB、BLOB、MEDIUMBLO和 LONGBLOB。
 
 TEXT是一个不区分大小写的BLOB。四种TEXT类型：TINYTEXT、TEXT、MEDIUMTEXT 和 LONGTEXT。
 
@@ -314,8 +274,6 @@ BLOB 保存二进制数据，TEXT 保存字符数据。
 
 ## 四、索引
 
-> ❝
->
 > 说说你对 MySQL 索引的理解？
 >
 > 数据库索引的原理，为什么要用 B+树，为什么不用二叉树？
