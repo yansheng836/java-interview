@@ -72,9 +72,6 @@ page：是代表与一个页面相关的对象和属性。一个页面由一个�
 request：是代表与 Web 客户机发出的一个请求相关的对象和属性。一个请求可能跨越多个页面，涉及多个 Web 组件（由于 forward 指令和 include 动作的关系）
 session是是代表与用于某个 Web 客户机的一个用户体验相关的对象和属性。一个 Web 会话可以也经常会跨越多个客户机请求
 application是是代表与整个 Web 应用程序相关的对象和属性。这实质上是跨越整个 Web 应用程序，包括多个页面、请求和会话的一个全局作用域
-
-
-
 page：当前页面，也就是只要跳到别的页面就失效了
 request：一次会话，简单的理解就是一次请求范围内有效
 session：浏览器进程，只要当前页面没有被关闭（没有被程序强制清除），不管怎么跳转都是有效的
@@ -160,7 +157,7 @@ Java 内存模型中，方法中的临时变量是在栈上分配空间，而且
 
 # Servlet方面
 
-**1、说一说Servlet的生命周期?**
+1、说一说Servlet的生命周期?
 
 Servlet有良好的生存期的定义，包括加载和实例化、初始化、处理请求以及服务结束。这个生存期由javax.servlet.Servlet接口的init,service和destroy方法表达。 Servlet被服务器实例化后，容器运行其init方法，请求到达时运行其service方法，service方法自动派遣运行与请求对应的doXXX方法（doGet，doPost）等，当服务器决定将实例销毁的时候调用其destroy方法。
 
@@ -172,43 +169,37 @@ forward是服务器请求资源，服务器直接访问目标地址的URL，把�
 
 redirect就是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址，相当于客户端浏览器发送了两次请求。
 
-**3、Servlet的基本架构**
+## 3、Servlet的基本架构
 
 ```java
 public class ServletName extends HttpServlet {
 
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws
-
-      ServletException, IOException  {
-
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
       }
 
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws
-
-      ServletException, IOException  {
-
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
       }
 
 }
 ```
 
-**4、什么情况下调用doGet()和doPost()？**
+## 4、什么情况下调用doGet()和doPost()？
 
 JSP页面中的form标签里的method属性为get时调用doGet()，为post时调用doPost()；超链接跳转页面时调用doGet()
 
-**5、servlet的生命周期**
+## 5、servlet的生命周期
 
-web容器加载servlet，生命周期开始。通过调用servlet的init()方法进行servlet的初始化。通过调用service()方法实现，根据请求的不同调用不同的do***()方法。结束服务，web容器调用servlet的destroy()方法。
+web容器加载servlet，生命周期开始。通过调用servlet的init()方法进行servlet的初始化。通过调用service()方法实现，根据请求的不同调用不同的do*()方法。结束服务，web容器调用servlet的destroy()方法。
 
-**6、页面间对象传递的方法**
+## 6、页面间对象传递的方法
 
 request，session，application，cookie等
 
-**7、JSP和Servlet有哪些相同点和不同点，他们之间的联系是什么？**
+## 7、JSP和Servlet有哪些相同点和不同点，他们之间的联系是什么？
 
 JSP是Servlet技术的扩展，本质上是Servlet的简易方式，更强调应用的外表表达。JSP编译后是"类servlet"。Servlet和JSP最主要的不同点在于，Servlet的应用逻辑是在Java文件中，并且完全从表示层中的HTML里分离开来。而JSP的情况是Java和HTML可以组合成一个扩展名为.jsp的文件。JSP侧重于视图，Servlet主要用于控制逻辑。
 
-**8、四种会话跟踪技术**
+## 8、四种会话跟踪技术
 
 会话作用域ServletsJSP 页面描述
 
@@ -220,7 +211,7 @@ JSP是Servlet技术的扩展，本质上是Servlet的简易方式，更强调应
 
 4）application是是代表与整个 Web 应用程序相关的对象和属性。这实质上是跨越整个 Web 应用程序，包括多个页面、请求和会话的一个全局作用域
 
-**9、Request对象的主要方法**
+## 9、Request对象的主要方法
 
 setAttribute(String name,Object)：设置名字为name的request的参数值
 
@@ -270,31 +261,23 @@ getServerPort()：获取服务器的端口号
 
 removeAttribute(String name)：删除请求中的一个属性
 
-**10、我们在web应用开发过程中经常遇到输出某种编码的字符，如iso8859-1等，如何输出一个某种编码的字符串？**
+## 10、我们在web应用开发过程中经常遇到输出某种编码的字符，如iso8859-1等，如何输出一个某种编码的字符串？
 
-  Public String translate (String str) {
+```java
+public String translate (String str) {
 
-​    String tempStr = "";
+    String tempStr = "";
+    try {
+      tempStr = new String(str.getBytes("ISO-8859-1"), "GBK");
+      tempStr = tempStr.trim();
+    }catch (Exception e) {
+      System.err.println(e.getMessage());
+    }
+    return tempStr;
+}
+```
 
-​    try {
-
-​      tempStr = new String(str.getBytes("ISO-8859-1"), "GBK");
-
-​      tempStr = tempStr.trim();
-
-​    }
-
-​    catch (Exception e) {
-
-​      System.err.println(e.getMessage());
-
-​    }
-
-​    return tempStr;
-
-  }
-
-**11、Servlet执行时一般实现哪几个方法？**
+## 11、Servlet执行时一般实现哪几个方法？
 
 public void init(ServletConfig config)
 
@@ -306,7 +289,7 @@ public void service(ServletRequest request,ServletResponse response)
 
 public void destroy()
 
-**12、描述Cookie和Session的作用，区别和各自的应用范围，Session工作原理。**
+## 12、描述Cookie和Session的作用，区别和各自的应用范围，Session工作原理。
 
 1）cookie 是一种发送到客户浏览器的文本串句柄，并保存在客户机硬盘上，可以用来在某个WEB站点会话间持久的保持数据。
 
@@ -320,33 +303,33 @@ public void destroy()
 
 5）session工作原理：session技术中所有的数据都保存在服务器上，客户端每次请求服务器的时候会发送当前会话的sessionid，服务器根据当前sessionid判断相应的用户数据标志，以确定用户是否登录或具有某种权限。
 
-**13、什么是Servlet？**
+## 13、什么是Servlet？
 
 Servlet是用来处理客户端请求并产生动态网页内容的Java类。Servlet主要是用来处理或者是存储HTML表单提交的数据，产生动态内容，在无状态的HTTP协议下管理状态信息。
 
-**14、说一下Servlet的体系结构。**
+## 14、说一下Servlet的体系结构。
 
 所有的Servlet都必须要实现的核心的接口是javax.servlet.Servlet。每一个Servlet都必须要直接或者是间接实现这个接口，或者是继承javax.servlet.GenericServlet或者javax.servlet.http.HTTPServlet。最后，Servlet使用多线程可以并行的为多个请求服务。
 
-**15、Applet和Servlet有什么区别？**
+## 15、Applet和Servlet有什么区别？
 
 Applet是运行在客户端主机的浏览器上的客户端Java程序。而Servlet是运行在web服务器上的服务端的组件。applet可以使用用户界面类，而Servlet没有用户界面，相反，Servlet是等待客户端的HTTP请求，然后为请求产生响应。
 
-**16、GenericServlet和HttpServlet有什么区别？**
+## 16、GenericServlet和HttpServlet有什么区别？
 
 GenericServlet是一个通用的协议无关的Servlet，它实现了Servlet和ServletConfig接口。继承自GenericServlet的Servlet应该要覆盖service()方法。最后，为了开发一个能用在网页上服务于使用HTTP协议请求的Servlet，你的Servlet必须要继承自HttpServlet。这里有Servlet的例子。
 
-**17、解释下Servlet的生命周期。**
+## 17、解释下Servlet的生命周期。
 
 对每一个客户端的请求，Servlet引擎载入Servlet，调用它的init()方法，完成Servlet的初始化。然后，Servlet对象通过为每一个请求单独调用service()方法来处理所有随后来自客户端的请求，最后，调用Servlet(译者注：这里应该是Servlet而不是server的destroy()方法把Servlet删除掉。
 
-**18、doGet()方法和doPost()方法有什么区别？**
+## 18、doGet()方法和doPost()方法有什么区别？
 
 doGet：GET方法会把名值对追加在请求的URL后面。因为URL对字符数目有限制，进而限制了用在客户端请求的参数值的数目。并且请求中的参数值是可见的，因此，敏感信息不能用这种方式传递。
 
 doPOST：POST方法通过把请求参数值放在请求体中来克服GET方法的限制，因此，可以发送的参数的数目是没有限制的。最后，通过POST请求传递的敏感信息对外部客户端是不可见的。
 
-**19、什么是Web应用程序？**
+## 19、什么是Web应用程序？
 
 Web应用程序是对Web或者是应用服务器的动态扩展。有两种类型的Web应用：面向表现的和面向服务的。面向表现的Web应用程序会产生包含了很多种标记语言和动态内容的交互的web页面作为对请求的响应。而面向服务的Web应用实现了Web服务的端点(endpoint)。一般来说，一个Web应用可以看成是一组安装在服务器URL名称空间的特定子集下面的Servlet的集合。
 
@@ -354,15 +337,15 @@ Web应用程序是对Web或者是应用服务器的动态扩展。有两种类�
 
 服务端包含(SSI)是一种简单的解释型服务端脚本语言，大多数时候仅用在Web上，用servlet标签嵌入进来。SSI最常用的场景把一个或多个文件包含到Web服务器的一个Web页面中。当浏览器访问Web页面的时候，Web服务器会用对应的servlet产生的文本来替换Web页面中的servlet标签。
 
-**21、什么是Servlet链(Servlet Chaining)？**
+## 21、什么是Servlet链(Servlet Chaining)？
 
 Servlet链是把一个Servlet的输出发送给另一个Servlet的方法。第二个Servlet的输出可以发送给第三个Servlet，依次类推。链条上最后一个Servlet负责把响应发送给客户端。
 
-**22、如何知道是哪一个客户端的机器正在请求你的Servlet？**
+## 22、如何知道是哪一个客户端的机器正在请求你的Servlet？
 
 ServletRequest类可以找出客户端机器的IP地址或者是主机名。getRemoteAddr()方法获取客户端主机的IP地址，getRemoteHost()可以获取主机名。看下这里的例子。
 
-**23、HTTP响应的结构是怎么样的？**
+## 23、HTTP响应的结构是怎么样的？
 
 HTTP响应由三个部分组成：
 
@@ -372,7 +355,7 @@ HTTP头部(HTTP Header)：它们包含了更多关于响应的信息。比如：
 
 主体(Body)：它包含了响应的内容。它可以包含HTML代码，图片，等等。主体是由传输在HTTP消息中紧跟在头部后面的数据字节组成的。
 
-**24、什么是cookie？session和cookie有什么区别？**
+## 24、什么是cookie？session和cookie有什么区别？
 
 cookie是Web服务器发送给浏览器的一块信息。浏览器会在本地文件中给每一个Web服务器存储cookie。以后浏览器在给特定的Web服务器发请求的时候，同时会发送所有为该服务器存储的cookie。下面列出了session和cookie的区别：
 
@@ -380,15 +363,15 @@ cookie是Web服务器发送给浏览器的一块信息。浏览器会在本地�
 
 在存储的数据量方面session和cookies也是不一样的。session能够存储任意的Java对象，cookie只能存储String类型的对象。
 
-**25、浏览器和Servlet通信使用的是什么协议？**
+## 25、浏览器和Servlet通信使用的是什么协议？
 
 浏览器和Servlet通信使用的是HTTP协议。
 
-**26、什么是HTTP隧道？**
+## 26、什么是HTTP隧道？
 
 HTTP隧道是一种利用HTTP或者是HTTPS把多种网络协议封装起来进行通信的技术。因此，HTTP协议扮演了一个打通用于通信的网络协议的管道的包装器的角色。把其他协议的请求掩盖成HTTP的请求就是HTTP隧道。
 
-**27、sendRedirect()和forward()方法有什么区别？**
+## 27、sendRedirect()和forward()方法有什么区别？
 
 sendRedirect()方法会创建一个新的请求，而forward()方法只是把请求转发到一个新的目标上。重定向(redirect)以后，之前请求作用域范围以内的对象就失效了，因为会产生一个新的请求，而转发(forwarding)以后，之前请求作用域范围以内的对象还是能访问的。一般认为sendRedirect()比forward()要慢。
 
@@ -400,36 +383,28 @@ URL编码是负责把URL里面的空格和其他的特殊字符替换成对应�
 
 JSP技术中，scriptlet是嵌入在JSP页面中的一段Java代码。scriptlet是位于标签内部的所有的东西，在标签与标签之间，用户可以添加任意有效的scriplet。
 
-**30、声明(Decalaration)在哪里？**
+## 30、声明(Decalaration)在哪里？
 
 声明跟Java中的变量声明很相似，它用来声明随后要被表达式或者scriptlet使用的变量。添加的声明必须要用开始和结束标签包起来。
 
-**31、什么是表达式(Expression)？**
+## 31、什么是表达式(Expression)？
 
 【列表很长，可以分上、中、下发布】
 
 JSP表达式是Web服务器把脚本语言表达式的值转化成一个String对象，插入到返回给客户端的数据流中。表达式是在<%=和%>这两个标签之间定义的。
 
-**32、隐含对象是什么意思？有哪些隐含对象？**
+## 32、隐含对象是什么意思？有哪些隐含对象？
 
 JSP隐含对象是页面中的一些Java对象，JSP容器让这些Java对象可以为开发者所使用。开发者不用明确的声明就可以直接使用他们。JSP隐含对象也叫做预定义变量。下面列出了JSP页面中的隐含对象：
 
 • application
-
 • page
-
 • request
-
 • response
-
 • session
-
 • exception
-
 • out
-
 • config
-
 • pageContext
 
 # [CGI与Servlet的区别和联系](https://www.cnblogs.com/MuyouSome/p/3938203.html)
@@ -464,9 +439,9 @@ CGI程序在UNIX操作系统上CERN或NCSA格式的服务器上运行。 在其�
 
  
 
-**Servlet**是一种服务器端的Java应用程序，具有独立于平台和协议的特性,可以生成动态的Web页面。 它担当客户请求（Web浏览器或其他HTTP客户程序）与服务器响应（HTTP服务器上的数据库或应用程序）的中间层。 Servlet是位于Web 服务器内部的服务器端的Java应用程序，与传统的从命令行启动的Java应用程序不同，Servlet由Web服务器进行加载，该Web服务器必须包含支持Servlet的Java虚拟机。
+Servlet是一种服务器端的Java应用程序，具有独立于平台和协议的特性,可以生成动态的Web页面。 它担当客户请求（Web浏览器或其他HTTP客户程序）与服务器响应（HTTP服务器上的数据库或应用程序）的中间层。 Servlet是位于Web 服务器内部的服务器端的Java应用程序，与传统的从命令行启动的Java应用程序不同，Servlet由Web服务器进行加载，该Web服务器必须包含支持Servlet的Java虚拟机。
 
-**工作模式**：客户端发送请求至服务器；服务器启动并调用Servlet，Servlet根据客户端请求生成响应内容并将其传给服务器；服务器将响应返回客户端。
+工作模式：客户端发送请求至服务器；服务器启动并调用Servlet，Servlet根据客户端请求生成响应内容并将其传给服务器；服务器将响应返回客户端。
 
  
 
@@ -478,16 +453,14 @@ CGI程序在UNIX操作系统上CERN或NCSA格式的服务器上运行。 在其�
 
 　　在传统CGI中，如果有N个并发的对同一CGI程序的请求，则该CGI程序的代码在内存中重复装载了N次；而对于Servlet，处理请求的是N个线程，只需要一份Servlet类代码。在性能优化方面，Servlet也比CGI有着更多的选择。
 
- 
-
-　　*** 方便** 　
+　　* 方便 　
 
 　　Servlet提供了大量的实用工具例程，例如自动地解析和解码HTML表单数据、读取和设置[HTTP](http://baike.baidu.com/view/9472.htm)头、处理[Cookie](http://baike.baidu.com/view/835.htm)、跟踪会话状态等。
 
-　　*** 功能强大**
+　　* 功能强大
 
 　　在Servlet中，许多使用传统CGI程序很难完成的任务都可以轻松地完成。例如，Servlet能够直接和[Web](http://baike.baidu.com/view/3912.htm)服务器交互，而普通的CGI程序不能。Servlet还能够在各个程序之间共享数据，使得[数据库](http://baike.baidu.com/view/1088.htm)连接池之类的功能很容易实现。
 
-　　*** 可移植性好**
+　　* 可移植性好
 
 Servlet用Java编写，Servlet [API](http://baike.baidu.com/view/16068.htm)具有完善的标准。因此，为IPlanet Enterprise Server写的Servlet无需任何实质上的改动即可移植到[Apache](http://baike.baidu.com/view/28283.htm)、[Microsoft ](http://baike.baidu.com/view/2422.htm)IIS或者WebStar。几乎所有的主流服务器都直接或通过插件支持Servlet。
