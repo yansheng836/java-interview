@@ -24,13 +24,13 @@
 
 （5）提供映射标签，支持对象与数据库的ORM字段关系映射；提供对象关系映射标签，支持对象关系组件维护。
 
-## 3、MyBatis框架的缺点：
+## 3、MyBatis框架的缺点
 
 （1）SQL语句的编写工作量较大，尤其当字段多、关联表多时，对开发人员编写SQL语句的功底有一定要求。
 
 （2）SQL语句依赖于数据库，导致数据库移植性差，不能随意更换数据库。
 
-## 4、MyBatis框架适用场合：
+## 4、MyBatis框架适用场合
 
 （1）MyBatis专注于SQL本身，是一个足够灵活的DAO层解决方案。
 
@@ -46,7 +46,7 @@
 
 ## 6、#{}和${}的区别是什么？
 
-\#{}是预编译处理，${}是字符串替换。
+#{}是预编译处理，${}是字符串替换。
 
 Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；
 
@@ -66,7 +66,7 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
 
 第2种： 通过`<resultMap>`来映射字段名和实体类属性名的一一对应的关系。
 
-```html
+```xml
  <select id="getOrder" parameterType="int" resultMap="orderresultmap">
         select * from orders where order_id=#{id}
     </select>
@@ -80,8 +80,6 @@ Mybatis在处理${}时，就是把${}替换成变量的值。
         <result property=”price” column=”order_price” />
     </reslutMap>
 ```
-
- 
 
 ## 8、 模糊查询like语句该怎么写?
 
@@ -182,8 +180,6 @@ insert 方法总是返回一个int值 ，这个值代表的是插入的行数。
 </insert>
 ```
 
-
-
 ```java
     name name = new name();
     name.setname(“fred”);
@@ -193,8 +189,6 @@ insert 方法总是返回一个int值 ，这个值代表的是插入的行数。
     system.out.println(“rows inserted = ” + rows);
     system.out.println(“generated key value = ” + name.getid());
 ```
-
-
 
 ## 14、在mapper中如何传递多个参数?
 
@@ -322,11 +316,9 @@ Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或�
 
 1）一级缓存: 基于 PerpetualCache 的 HashMap 本地缓存，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空，默认打开一级缓存。
 
-2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。默认不打开二级缓存，要开启二级缓存，使用二级缓存属性类需要实现Serializable序列化接口(可用来保存对象的状态),可在它的映射文件中配置`<cache/>` ；
+2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。默认不打开二级缓存，要开启二级缓存，使用二级缓存属性类需要实现Serializable序列化接口(可用来保存对象的状态),可在它的映射文件中配置`<cache/>` 。
 
 3）对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear 掉并重新更新，如果开启了二级缓存，则只根据配置判断是否刷新。
-
- 
 
 ## 24、什么是MyBatis的接口绑定？有哪些实现方式？
 

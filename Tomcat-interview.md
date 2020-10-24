@@ -21,7 +21,6 @@ Tomcat 服务器Apache软件基金会项目中的一个核心项目，是一个�
 <Connector port="8080" protocol="HTTP/1.1" 
                connectionTimeout="20000" 
                redirectPort="8443" />
-1234
 ```
 
 ## tomcat 有哪几种Connector 运行模式(优化)？

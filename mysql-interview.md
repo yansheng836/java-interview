@@ -1391,30 +1391,17 @@ MySQL 支持的数据类型非常多，选择正确的数据类型对于获取�
 
 区别于分区的是，分区一般都是放在单机里的，用的比较多的是时间范围分区，方便归档。只不过分库分表需要代码实现，分区则是mysql内部实现。分库分表和分区并不冲突，可以结合使用。
 
-## 由于篇幅原因，在这就不做全部展示了，这些题我已经整理成pdf文档免费分享给那些有需要的朋友，同时整理也花费了蛮多时间，有需要的朋友帮忙点赞然后私信关键词【面试资料】即可获取免费领取方式
+---
 
-
+由于篇幅原因，在这就不做全部展示了，这些题我已经整理成pdf文档免费分享给那些有需要的朋友，同时整理也花费了蛮多时间，有需要的朋友帮忙点赞然后私信关键词【面试资料】即可获取免费领取方式.
 
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-38769c254b9e60a9.png?imageMogr2/auto-orient/strip|imageView2/2/w/544/format/webp)
 
-image.png
-
-
-
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-51c28bcaf9032acf.png?imageMogr2/auto-orient/strip|imageView2/2/w/551/format/webp)
-
-image.png
-
-
 
 ![img](https:////upload-images.jianshu.io/upload_images/20012016-ae3e07acc62a7eca.png?imageMogr2/auto-orient/strip|imageView2/2/w/539/format/webp)
 
-image.png
-
 作者：爱码士人员
-
 链接：https://www.jianshu.com/p/c189439fb32e
-
 来源：简书
-
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

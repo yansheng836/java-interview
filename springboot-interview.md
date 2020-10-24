@@ -157,7 +157,6 @@ public class CorsConfig implements WebMvcConfigurer {
     }
 
 }
-12345678910111213
 ```
 
 项目中前后端分离部署，所以需要解决跨域的问题。
@@ -182,7 +181,6 @@ public class CorsConfig {
     }
 
 }
-12345678910111213141516
 ```
 
 ### 什么是 CSRF 攻击？
@@ -270,7 +268,6 @@ Swagger 广泛用于可视化 API，使用 Swagger UI 为前端开发人员提�
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-devtools</artifactId>
 </dependency>
-1234
 ```
 
 ### 您使用了哪些 starter maven 依赖项？
@@ -344,3 +341,4 @@ Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方�
 使用 Spring 中的 @Scheduled 的方式主要通过 @Scheduled 注解来实现。
 
 使用 Quartz ，则按照 Quartz 的方式，定义 Job 和 Trigger 即可。
+

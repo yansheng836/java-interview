@@ -30,9 +30,6 @@ my.cnf加入以下配置，重启Mysql开启查询缓存
 
 ```bash
 query_cache_type=1
-
-
-
 query_cache_size=600000
 ```
 
@@ -40,9 +37,6 @@ Mysql执行以下命令也可以开启查询缓存
 
 ```bash
 set global  query_cache_type=1;
-
-
-
 set global  query_cache_size=600000;
 ```
 

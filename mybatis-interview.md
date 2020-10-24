@@ -127,9 +127,7 @@ https://www.cnblogs.com/qmillet/p/12523636.html
 
  第2种： **通过`<resultMap>`来映射字段名和实体类属性名的一一对应的关系**
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
-
-```
+```xml
 <select id="getOrder" parameterType="int" resultMap="orderresultmap">
         select * from orders where order_id=#{id}
     </select>
@@ -142,8 +140,6 @@ https://www.cnblogs.com/qmillet/p/12523636.html
     </reslutMap>
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
-
 ## 18. 在mapper中如何传递多个参数?
 
 **第一种：使用占位符的思想**
@@ -152,7 +148,7 @@ https://www.cnblogs.com/qmillet/p/12523636.html
 - **使用@param注解:来命名参数**
 - `#{0}`,#{1}方式
 
-```
+```xml
 //对应的xml,#{0}代表接收的是dao层中的第一个参数，#{1}代表dao层中第二参数，更多参数一致往后加即可。
 
 <select id="selectUser"resultMap="BaseResultMap">  
@@ -162,9 +158,8 @@ https://www.cnblogs.com/qmillet/p/12523636.html
 
 - @param注解方式
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
 
-```
+```xml
 public interface usermapper { 
          user selectuser(@param(“username”) string username, 
          @param(“hashedpassword”) string hashedpassword); 
@@ -177,15 +172,10 @@ public interface usermapper {
     </select>
 ```
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
-
- 
-
 **第二种：使用Map集合作为参数来装载**
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
 
-```
+```java
 try{
             //映射文件的命名空间.SQL片段的ID，就可以调用对应的映射文件中的SQL
 
@@ -214,10 +204,6 @@ try{
 
     </select>
 ```
-
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
-
- 
 
 ## 19. Mybatis动态sql是做什么的？都有哪些动态sql？能简述一下动态sql的执行原理不？
 

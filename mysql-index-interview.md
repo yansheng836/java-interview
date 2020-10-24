@@ -8,23 +8,23 @@
 
 声明：本人主要简单示例MySQL中的**单列索引**、**组合索引**的创建与使用。
 
-------
+## 索引的创建
 
-# 索引的创建：
+### 建表时创建
 
-### 建表时创建：
+```sql
+CREATE TABLE 表名(
 
-**CREATE TABLE 表名(**
+字段名 数据类型 [完整性约束条件],
 
-**字段名 数据类型 [完整性约束条件],**
+       ……，
 
-​       **……，**
+[UNIQUE | FULLTEXT | SPATIAL] INDEX | KEY
 
-**[UNIQUE | FULLTEXT | SPATIAL] INDEX | KEY**
+[索引名](字段名1 [(长度)] [ASC | DESC]) [USING 索引方法]
 
-**[索引名](字段名1 [(长度)] [ASC | DESC]) [USING 索引方法]**
-
-**);**
+);
+```
 
 说明：
 
@@ -44,69 +44,21 @@
 
 ```sql
 CREATE TABLE projectfile (
-
-
-
 	id INT AUTO_INCREMENT COMMENT '附件id',
-
-
-
 	fileuploadercode VARCHAR(128) COMMENT '附件上传者code',
-
-
-
 	projectid INT COMMENT '项目id;此列受project表中的id列约束',
-
-
-
 	filename VARCHAR (512) COMMENT '附件名',
-
-
-
 	fileurl VARCHAR (512) COMMENT '附件下载地址',
-
-
-
 	filesize BIGINT COMMENT '附件大小，单位Byte',
-
-
-
 	-- 主键本身也是一种索引（注:也可以在上面的创建字段时使该字段主键自增）
-
-
-
         PRIMARY KEY (id),
-
-
-
 	-- 主外键约束（注:project表中的id字段约束了此表中的projectid字段）
-
-
-
 	FOREIGN KEY (projectid) REFERENCES project (id),
-
-
-
 	-- 给projectid字段创建了唯一索引(注:也可以在上面的创建字段时使用unique来创建唯一索引)
-
-
-
 	UNIQUE INDEX (projectid),
-
-
-
 	-- 给fileuploadercode字段创建普通索引
-
-
-
 	INDEX (fileuploadercode)
-
-
-
 	-- 指定使用INNODB存储引擎(该引擎支持事务)、utf8字符编码
-
-
-
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COMMENT '项目附件表';
 ```
 
@@ -116,75 +68,33 @@ CREATE TABLE projectfile (
 
 ```sql
 CREATE TABLE projectfile (
-
-
-
 	id INT AUTO_INCREMENT COMMENT '附件id',
-
-
-
 	fileuploadercode VARCHAR(128) COMMENT '附件上传者code',
-
-
-
 	projectid INT COMMENT '项目id;此列受project表中的id列约束',
-
-
-
 	filename VARCHAR (512) COMMENT '附件名',
-
-
-
 	fileurl VARCHAR (512) COMMENT '附件下载地址',
-
-
-
 	filesize BIGINT COMMENT '附件大小，单位Byte',
-
-
-
 	-- 主键本身也是一种索引（注:也可以在上面的创建字段时使该字段主键自增）
-
-
-
         PRIMARY KEY (id),
-
-
-
         -- 创建组合索引
-
-
-
 	INDEX (fileuploadercode,projectid)
-
-
-
 	-- 指定使用INNODB存储引擎(该引擎支持事务)、utf8字符编码
-
-
-
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COMMENT '项目附件表';
 ```
 
-### 建表后创建：
+### 建表后创建
 
-**ALTER TABLE 表名 ADD [UNIQUE | FULLTEXT | SPATIAL]  INDEX | KEY  [索引名] (字段名1 [(长度)] [ASC | DESC]) [USING 索引方法]；**
+`ALTER TABLE 表名 ADD [UNIQUE | FULLTEXT | SPATIAL]  INDEX | KEY  [索引名] (字段名1 [(长度)] [ASC | DESC]) [USING 索引方法]；`
 
 或
 
-**CREATE  [UNIQUE | FULLTEXT | SPATIAL]  INDEX  索引名 ON  表名(字段名) [USING 索引方法]；**
+`CREATE  [UNIQUE | FULLTEXT | SPATIAL]  INDEX  索引名 ON  表名(字段名) [USING 索引方法]；`
 
 示例一：
 
 ```sql
 -- 假设建表时fileuploadercode字段没创建索引(注:同一个字段可以创建多个索引，但一般情况下意义不大)
-
-
-
 -- 给projectfile表中的fileuploadercode创建索引
-
-
-
 ALTER TABLE projectfile ADD UNIQUE INDEX (fileuploadercode);
 ```
 
@@ -198,25 +108,14 @@ ALTER TABLE projectfile ADD INDEX (fileuploadercode, projectid);
 
 ```sql
 -- 将id列设置为主键
-
-
-
 ALTER TABLE index_demo ADD PRIMARY KEY(id) ;
-
-
-
 -- 将id列设置为自增
-
-
-
 ALTER TABLE index_demo MODIFY id INT auto_increment;  
 ```
 
-------
+## 查看已创建的索引
 
-# 查看已创建的索引：
-
-**show index from 表名;**
+`show index from 表名;`
 
 提示:我们也可以直接使用工具查看
 
@@ -224,15 +123,13 @@ ALTER TABLE index_demo MODIFY id INT auto_increment;
 
 ![img](https://img-blog.csdn.net/2018080618133679?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2p1c3RyeV9kZW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-------
+## 索引的删除：
 
-# 索引的删除：
-
-**DROP INDEX 索引名 ON 表名**
+`DROP INDEX 索引名 ON 表名`
 
 或
 
-**ALTER TABLE 表名 DROP INDEX 索引名**
+ALTER TABLE 表名 DROP INDEX 索引名`
 
 示例一：
 
@@ -246,11 +143,9 @@ drop index fileuploadercode1 on projectfile;
 alter table projectfile drop index s2123;
 ```
 
-------
+## 查看SQL语句对索引的使用情况(即:查询SQL的查询执行计划QEP)
 
-# 查看SQL语句对索引的使用情况(即:查询SQL的查询执行计划QEP)：
-
-**在select语句前加上EXPLAIN即可。**
+在select语句前加上EXPLAIN即可。
 
 示例：
 
@@ -321,9 +216,9 @@ EXPLAIN SELECT * FROM `index_demo` ii WHERE ii.e_name = 'Jane';
 
 ------
 
-# 单列索引的使用：
+## 单列索引的使用
 
-### 准备工作：
+### 准备工作
 
 给id加主键索引：
 
@@ -335,7 +230,7 @@ EXPLAIN SELECT * FROM `index_demo` ii WHERE ii.e_name = 'Jane';
 
 注：以上五个索引都是单列索引。
 
-### 使用情况：
+### 使用情况
 
 **只涉及到其中的一个字段时，都能使用到索引**(以e_name为例):
 
@@ -371,13 +266,11 @@ EXPLAIN SELECT * FROM `index_demo` ii WHERE ii.e_name = 'Jane';
 
 提示：在实际使用时，如果涉及到多列，我们一般都不会将这些列一 一创建为单列索引，而是将这些列创建为组合索引。
 
-------
+## 组合索引的使用
 
-# 组合索引的使用：
+### 最左原则
 
-### 最左原则：
-
-​       **假设组合索引为：a,b,c的话；那么当SQL中对应有：a或a，b或a，b，c的时候，可称为完全满足最左原则；当SQL中查询条件对应只有a，c的时候，可称为部分满足最左原则；当SQL中没有a的时候，可称为不满足最左原则**。
+**假设组合索引为：a,b,c的话；那么当SQL中对应有：a或a，b或a，b，c的时候，可称为完全满足最左原则；当SQL中查询条件对应只有a，c的时候，可称为部分满足最左原则；当SQL中没有a的时候，可称为不满足最左原则**。
 
 注：**MySQL5.7开始，会自动优化，如：会把c，b，a优化为a，b，c使之完全遵循最左原则；会把c，a优化为a，c使之部       分遵循最左原则**。即：SQL语句中的对应条件的先后顺序无关。
 
@@ -387,55 +280,49 @@ EXPLAIN SELECT * FROM `index_demo` ii WHERE ii.e_name = 'Jane';
 
 创建了组合索引:**e_name，e_age，e_country，e_city**。
 
-### 使用情况：
+### 使用情况
 
-**完全满足最左原则****：**
+**完全满足最左原则**：
 
 ![img](https://img-blog.csdn.net/20180806183950720?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2p1c3RyeV9kZW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-注：与条件的先后无关(这是因为MYSQL5.7开始，对索引全排列有优化，会自动优化为按组合索引的顺序进行查询)，
-       即：下面这样的话，也是会完整的走组合索引的：
+注：与条件的先后无关(这是因为MYSQL5.7开始，对索引全排列有优化，会自动优化为按组合索引的顺序进行查询)，即：下面这样的话，也是会完整的走组合索引的：
 
 ![img](https://img-blog.csdn.net/20180806184004390?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2p1c3RyeV9kZW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-**部分满足最左原则****：**
+**部分满足最左原则**：
 
 ![img](https://img-blog.csdn.net/20180806184124542?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2p1c3RyeV9kZW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-注：此SQL中，只有e_name和e_country满足部分最左原则(e_name满足)，所以到e_name字段时会走组合所以，但是
-       只会走到e_name那里，到e_country时就不会使用组合索引了。
+注：此SQL中，只有e_name和e_country满足部分最左原则(e_name满足)，所以到e_name字段时会走组合所以，但是只会走到e_name那里，到e_country时就不会使用组合索引了。
 
-**不满足最左原则****：**
+**不满足最左原则**：
 
 ![img](https://img-blog.csdn.net/20180806184203183?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2p1c3RyeV9kZW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-**满足(部分满足)最左原则的字段里，有字段不满足“索引”自身的使用规范****：**
+**满足(部分满足)最左原则的字段里，有字段不满足“索引”自身的使用规范**：
 
-说明：如果SQL语句里的字段里，满足了最左原则，但是不满足“索引”自身的使用规范，那么组合索引走到这里之后，
-           不会再往下走了。
+说明：如果SQL语句里的字段里，满足了最左原则，但是不满足“索引”自身的使用规范，那么组合索引走到这里之后，不会再往下走了。
 
 ![img](https://img-blog.csdn.net/20180806184244788?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2p1c3RyeV9kZW5n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-如图所示：由于e_age字段使用了“>”符号，不符合“索引”自身的使用规范，那么当“e_name”走完组合索引后，
-                  走到“e_age”时，该字段及其后面的字段不会再走组合索引了。
+如图所示：由于e_age字段使用了“>”符号，不符合“索引”自身的使用规范，那么当“e_name”走完组合索引后，走到“e_age”时，该字段及其后面的字段不会再走组合索引了。
 
-------
+## 【补充】使用组合索引时，不遵循最左原则仍然会走索引的特殊种情况
 
-# 【补充】使用组合索引时，不遵循最左原则仍然会走索引的特殊种情况：
-
-## 相关概念：
+### 相关概念
 
 **聚集索引与非聚集索引：**
 
-​       每个InnoDB表具有一个特殊的索引称为聚簇索引（也叫聚集索引，聚类索引，簇集索引）。如果表上定义有主键，该主键索引就是聚簇索引。如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引。
+每个InnoDB表具有一个特殊的索引称为聚簇索引（也叫聚集索引，聚类索引，簇集索引）。如果表上定义有主键，该主键索引就是聚簇索引。如果未定义主键，MySQL取第一个唯一索引（unique）而且只含非空列（NOT NULL）作为主键，InnoDB使用它作为聚簇索引。如果没有这样的列，InnoDB就自己产生一个这样的ID值，它有六个字节，而且是隐藏的，使其作为聚簇索引。
 
-​       表中的聚簇索引（clustered index ）就是一级索引，除此之外，表上的其他非聚簇索引都是二级索引，又叫辅助索引（secondary indexes）。
+表中的聚簇索引（clustered index ）就是一级索引，除此之外，表上的其他非聚簇索引都是二级索引，又叫辅助索引（secondary indexes）。
 
 **回表：**
 
-​        当二级索引无法直接查询到(SQL中select需要的所有)列的数据时，会通过二级索引查询到聚簇索引(即:一级索引)后，再根据(聚集索引)查询到(二级索引中无法提供)的数据，这种通过二级索引查询出一级索引，再通过一级索引查询(二级索引中无法提供的)数据的过程，就叫做回表。
+当二级索引无法直接查询到(SQL中select需要的所有)列的数据时，会通过二级索引查询到聚簇索引(即:一级索引)后，再根据(聚集索引)查询到(二级索引中无法提供)的数据，这种通过二级索引查询出一级索引，再通过一级索引查询(二级索引中无法提供的)数据的过程，就叫做回表。
 
-## 当无需回表时，不遵循最左原则也是会走组合索引：
+## 当无需回表时，不遵循最左原则也是会走组合索引
 
 如，现有表：
 
@@ -449,19 +336,16 @@ id是主键，其余三个字段组成联合索引：
 
 ![img](https://img-blog.csdnimg.cn/20200425150209577.png)
 
-​        这里where后直接是gender时， 是不遵循组合索引的最左原则的，但是查询计划显示使用了索引的。这是因为: 对这张表进行select *，相当于进行select id,name,age,gender，其中，id是主键(一级索引)，name、age、gender是组合索引(二级索引)，这里查询时，能直接从索引中拿到想要查询的所有列的数据，是不需要回表查询的，所以这里哪怕sql写法上不遵循最左原则，但是仍然是会走索引的。
+这里where后直接是gender时， 是不遵循组合索引的最左原则的，但是查询计划显示使用了索引的。这是因为: 对这张表进行`select *`，相当于进行`select id,name,age,gender`，其中，id是主键(一级索引)，name、age、gender是组合索引(二级索引)，这里查询时，能直接从索引中拿到想要查询的所有列的数据，是不需要回表查询的，所以这里哪怕sql写法上不遵循最左原则，但是仍然是会走索引的。
 
 如果这个时候，我们加一个普通的motto字段：
 
 ![img](https://img-blog.csdnimg.cn/20200425150248638.png)
 
- 
 
 使用相同的SQL进行查询，可看到：
 
 ![img](https://img-blog.csdnimg.cn/20200425150257444.png)
-
- 
 
 此时进行select *，相当于进行select id,name,age,gender,motto，其中motto字段是从索引(一级索引、二级索引)里面获取不到数据的，是肯定需要回表的。而查询条件又不遵循最左原则，所以不会走组合索引。
 
@@ -469,20 +353,16 @@ id是主键，其余三个字段组成联合索引：
 
 ------
 
-### ^_^ 如有不当之处，欢迎指正
+> ^_^ 如有不当之处，欢迎指正
+>
+> ^_^ 参考链接：  
+>
+> <https://www.cnblogs.com/DreamDrive/p/7752960.html>            
+> <https://www.cnblogs.com/tommy-huang/p/4317305.html>
+> <https://blog.csdn.net/linjpg/article/details/56054994>
+> <https://www.jb51.net/article/118371.html>
+> <https://www.csdn.net/gather_2a/MtTaMgwsNzY0OS1ibG9n.html>
+>
+> ^_^ 如涉及侵权问题，请及时联系我
+> ^_^ 本文已经被收录进《程序员成长笔记(二)》，笔者JustryDeng
 
-### ^_^ 参考链接   
-
-https://www.cnblogs.com/DreamDrive/p/7752960.html               
-
-https://www.cnblogs.com/tommy-huang/p/4317305.html
-
-https://blog.csdn.net/linjpg/article/details/56054994
-
-https://www.jb51.net/article/118371.html
-
-<https://www.csdn.net/gather_2a/MtTaMgwsNzY0OS1ibG9n.html>
-
-### ^_^ 如涉及侵权问题，请及时联系我
-
-### ^_^ 本文已经被收录进《程序员成长笔记(二)》，笔者JustryDeng
